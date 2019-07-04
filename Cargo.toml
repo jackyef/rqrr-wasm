@@ -1,0 +1,16 @@
+[package]
+name = "cargo-test"
+version = "0.1.0"
+authors = ["Jacky Efendi <jacky.efendi1@gmail.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+quirs = "0.1.1"
+serde_json = "1.0"
+
+[dependencies.wasm-bindgen]
+version = "0.2.47"
+features = ["serde-serialize"]
