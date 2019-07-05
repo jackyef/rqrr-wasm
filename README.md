@@ -25,20 +25,12 @@ rustup target add wasm32-unknown-unknown
 
 ## Building
 
-To build optimised .wasm for production
+To build the rust source code to optimised .wasm for production
 ```
 ./build.sh
 ```
 
-To check if the source code can be compiled correctly
-```
-cargo check
-```
-
-To build + run the binary in the same command
-```
-cargo run
-```
+The rust source code is inside `rust-src` dir.
 
 ## Get the demo running locally
 
@@ -53,6 +45,5 @@ Open the address, an `initialize` button will appear after the wasm module is lo
 The output will be logged into console.
 
 ## Next goals
-- [ ] Make the demo more delightful to use
 - [ ] Try to optimise the output and the code
-- [ ] Publish as npm package
+- [ ] Make it easier to consume as npm package
