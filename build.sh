@@ -8,7 +8,7 @@ cargo build --target wasm32-unknown-unknown --release
 
 cd ..
 mkdir -p docs
-wasm-bindgen target/wasm32-unknown-unknown/release/qr_rust.wasm --out-dir ./docs --no-modules --no-typescript
+wasm-bindgen rust-src/target/wasm32-unknown-unknown/release/qr_rust.wasm --out-dir ./docs --no-modules --no-typescript
 
 wasm-opt -Os docs/qr_rust_bg.wasm -o docs/qr_rust.wasm
 

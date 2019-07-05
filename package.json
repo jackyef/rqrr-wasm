@@ -1,6 +1,6 @@
 {
   "name": "rqrr-wasm",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The rust QR decoder library `rqrr`; compiled to WebAssembly using wasm-bindgen",
   "main": "docs/qr_rust.js",
   "browser": "docs/qr_rust.js",
