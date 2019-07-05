@@ -49,5 +49,5 @@ The output will be logged into console.
 
 ## Next goals
 - [ ] Make the demo more delightful to use
-- [ ] Try to optimise the output (code, gzip compression, etc)
+- [ ] Try to optimise the output and the code
 - [ ] Publish as npm package
