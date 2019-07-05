@@ -44,3 +44,8 @@ http-server ./docs -g
 
 Open the address, an `initialize` button will appear after the wasm module is loaded. Click on it and it will start detecting QR code from the media stream.
 The output will be logged into console.
+
+## Next goals
+- [ ] Make the demo more delightful to use
+- [ ] Try to optimise the output (code, gzip compression, etc)
+- [ ] Publish as npm package
