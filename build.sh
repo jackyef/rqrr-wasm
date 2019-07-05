@@ -3,8 +3,10 @@
 set -ex
 
 # Build the `hello_world.wasm` file using Cargo/rustc
+cd rust-src
 cargo build --target wasm32-unknown-unknown --release
 
+cd ..
 mkdir -p docs
 wasm-bindgen target/wasm32-unknown-unknown/release/qr_rust.wasm --out-dir ./docs --no-modules --no-typescript
 

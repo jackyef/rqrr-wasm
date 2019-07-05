@@ -1,5 +1,4 @@
 extern crate wasm_bindgen;
-extern crate serde_json;
 
 use wasm_bindgen::prelude::*;
 use image;

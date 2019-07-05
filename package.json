@@ -1,0 +1,30 @@
+{
+  "name": "rqrr-wasm",
+  "version": "0.0.1",
+  "description": "The rust QR decoder library `rqrr`; compiled to WebAssembly using wasm-bindgen",
+  "main": "docs/qr_rust.js",
+  "browser": "docs/qr_rust.js",
+  "scripts": {
+    "build": "./build.sh",
+    "pub": "npm publish --access public"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackyef/rqrr-wasm.git"
+  },
+  "keywords": [
+    "webassembly",
+    "rust",
+    "wasm",
+    "wasm-bindgen"
+  ],
+  "author": "Jacky Efendi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jackyef/rqrr-wasm/issues"
+  },
+  "homepage": "https://github.com/jackyef/rqrr-wasm#readme"
+}

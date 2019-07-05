@@ -6,6 +6,11 @@ can not compile to WebAssembly.
 
 Live demo: https://jackyef.github.io/rqrr-wasm/
 
+```
+qr_rust.js 1.4 KB gzip
+gr_rust.wasm 264 KB gzip
+```
+
 ## Requirements
 
 1. Install rust [guide](https://doc.rust-lang.org/book/ch01-01-installation.html)

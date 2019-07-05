@@ -1,4 +1,4 @@
-/target
-**/*.rs.bk
+rust-src/target
+rust-src/**/*.rs.bk
 
 .DS_Store

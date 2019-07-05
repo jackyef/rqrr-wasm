@@ -5,10 +5,36 @@
       name="viewport"
       content="initial-scale=1, minimum-scale=1, maximum-scale=5, user-scalable=no, width=device-width"
     />
+    <style>
+      video {
+        width: 100%;
+        margin: 8px 0;
+      }
+
+      button {
+        background: #4257b8;
+        color: white;
+        font-size: 1.5rem;
+        padding: 8px 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 3px;
+        border: none;
+        outline: none;
+      }
+
+      button:hover {
+        filter: brightness(110%);
+      }
+
+      button:click {
+        border: inset 1px black;
+      }
+    </style>
   </head>
 
   <video id="video" autoplay></video>
-
   <button id="capture" style="display: none">Initialize</button>
 
   <div id="output"></div>
@@ -29,9 +55,14 @@
 
     var decodeQr = function(byteArray) {
       const { decode_qr } = wasm_bindgen;
-      const output = decode_qr(byteArray);
-      console.log({ output });
-      window.decoded = output;
+      try {
+        const start = new Date().getTime();
+        const output = decode_qr(byteArray);
+        console.log({ output, timeTaken: new Date().getTime() - start });
+        window.decoded = output;
+      } catch (err) {
+        console.err("[Error while decoding]", err);
+      }
     };
 
     var captureImage = function() {
