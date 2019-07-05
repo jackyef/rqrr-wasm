@@ -1,12 +1,9 @@
-
 extern crate wasm_bindgen;
 extern crate serde_json;
-extern crate quirs;
 
 use wasm_bindgen::prelude::*;
-use quirs::Decoder;
-use quirs::Image;
-use quirs::Vec2D;
+use image;
+use rqrr;
 
 #[wasm_bindgen]
 extern "C" {
@@ -17,22 +14,22 @@ extern "C" {
 }
 
 #[wasm_bindgen]
-pub fn decode_qr(js_array: JsValue, width: usize, height: usize) {
+pub fn decode_qr(js_array: JsValue) -> String {
     let bytes: Vec<u8> = js_array.into_serde().unwrap();
 
-    let mut decoder = Decoder::new().expect("can't create Qui-RS decoder");
-    let image = Image::new(
-        &bytes,
-        Vec2D { x: width, y: height }
-    ).expect(
-        "can't create Qui-RS image"
-    );
-    let iter = decoder.decode_image(&image).expect("can't decode image");
+    let img = image::load_from_memory(&bytes).expect("Failed loading image from memory").to_luma();
+    // Prepare for detection
+    let mut img = rqrr::PreparedImage::prepare(img);
+    // Search for grids, without decoding
+    let grids = img.detect_grids();
+    assert_eq!(grids.len(), 1);
+    // Decode the grid
+    let (_meta, content) = match grids[0].decode() {
+        Ok(v) => v,
+        Err(_e) => return format!("{}", "null"),
+    };
 
-    for code in iter {
-        let code = code.expect("can't detect code");
-        let info = code.decode().expect("can't decode code");
+    log(&content);
 
-        log(info.as_str().expect("code contents not ASCII"));
-    }
+    format!("{}", content)
 }

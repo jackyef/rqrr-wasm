@@ -4,12 +4,21 @@
 <button id="capture">Capture</button>
  
 <div id="output"></div>
+<script src="qr_rust.js"></script>
 <script>
   const constraints = {
     video: true
   };
   var video, $output;
   var scale = 0.25;
+
+  var decodeQr = function(byteArray) {
+    const { decode_qr } = wasm_bindgen;
+
+    wasm_bindgen('qr_rust.wasm').then(() => {
+      decode_qr(byteArray);
+    }).catch(console.error)
+  }
 
   var captureImage = function() {
     console.log('captured! 1');
@@ -25,7 +34,8 @@
     $output.appendChild(img);
     console.log('captured!');
 
-    const theByteArray = myCanvas.getContext("2d").getImageData(0, 0, 640, 480).data; // we will send this rust
+    const theByteArray = myCanvas.getContext("2d").getImageData(0, 0, 640, 480).data; // we will send this wasm
+    decodeQr(theByteArray);
   };
   
   var initialize = function() {
