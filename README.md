@@ -1,5 +1,7 @@
 # Rust playground
 
+This project is still a work in progress
+
 ## Requirements
 
 1. Install rust, [this is a good guide for it](https://doc.rust-lang.org/book/ch01-01-installation.html)
