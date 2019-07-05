@@ -39,7 +39,7 @@ Easiest way is to use `http-server` npm module
 
 ```
 npm install http-server -g
-http-server ./dist -g 
+http-server ./docs -g 
 ```
 
 Open the address, an `initialize` button will appear after the wasm module is loaded. Click on it and it will start detecting QR code from the media stream.
