@@ -1,0 +1,82 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, minimum-scale=1, maximum-scale=5, user-scalable=no, width=device-width"
+    />
+  </head>
+
+  <video id="video" autoplay></video>
+
+  <button id="capture" style="display: none">Initialize</button>
+
+  <div id="output"></div>
+  <script src="qr_rust.js"></script>
+  <script>
+    // load the js bindings
+    wasm_bindgen("qr_rust.wasm")
+      .then(() => {
+        document.getElementById("capture").style.display = "block";
+      })
+      .catch(console.error);
+
+    const constraints = {
+      video: true
+    };
+    var video, $output;
+    var scale = 0.25;
+
+    var decodeQr = function(byteArray) {
+      const { decode_qr } = wasm_bindgen;
+      const output = decode_qr(byteArray);
+      console.log({ output });
+      window.decoded = output;
+    };
+
+    var captureImage = function() {
+      var canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth * scale;
+      canvas.height = video.videoHeight * scale;
+      canvas
+        .getContext("2d")
+        .drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // var img = document.createElement("img");
+      // img.src = canvas.toDataURL();
+      window.myCanvas = canvas;
+      // $output.appendChild(img);
+
+      // const clampedByteArray = myCanvas.getContext("2d").getImageData(0, 0, 640, 480).data;
+
+      canvas.toBlob(blob => {
+        const reader = new FileReader();
+
+        reader.addEventListener("loadend", () => {
+          const arrayBuffer = reader.result;
+          window.ab = arrayBuffer;
+
+          decodeQr(new Uint8Array(arrayBuffer));
+        });
+        reader.readAsArrayBuffer(blob);
+      });
+    };
+
+    var initialize = function() {
+      $output = document.getElementById("output");
+      video = document.getElementById("video");
+
+      navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+        video.srcObject = stream;
+      });
+      const capture = document.getElementById("capture");
+
+      capture.addEventListener("click", () => {
+        console.log("initialized");
+        setInterval(captureImage, 300);
+      });
+    };
+
+    initialize();
+  </script>
+</html>

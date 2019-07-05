@@ -14,22 +14,36 @@ extern "C" {
 }
 
 #[wasm_bindgen]
-pub fn decode_qr(js_array: JsValue) -> String {
-    let bytes: Vec<u8> = js_array.into_serde().unwrap();
+pub fn decode_qr(bytes: &[u8]) -> String {
+    // let mut output = "".to_string();
 
-    let img = image::load_from_memory(&bytes).expect("Failed loading image from memory").to_luma();
+    // for &var in bytes {
+    //     output.push_str(&format!("{},", &var));
+    // }
+
+    // log(&output);
+
+    let img = match image::load_from_memory(&bytes) {
+        Ok(v) => v,
+        Err(_e) => return format!("{}", "[Error] Failed when trying to load image"),
+    };
+
+    let img = img.to_luma();
+
     // Prepare for detection
     let mut img = rqrr::PreparedImage::prepare(img);
     // Search for grids, without decoding
     let grids = img.detect_grids();
-    assert_eq!(grids.len(), 1);
+
+    if grids.len() != 1 {
+        return format!("{}", "[Error] No QR code detected in image")
+    }
+
     // Decode the grid
     let (_meta, content) = match grids[0].decode() {
         Ok(v) => v,
-        Err(_e) => return format!("{}", "null"),
+        Err(_e) => return format!("{}", "[Error] Failed decoding the image"),
     };
 
-    log(&content);
-
-    format!("{}", content)
+    return format!("{}", content);
 }

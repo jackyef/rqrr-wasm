@@ -18,3 +18,4 @@ features = ["serde-serialize"]
 
 [profile.release]
 lto = true
+debug = true
