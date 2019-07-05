@@ -4,6 +4,8 @@ This project is still a work in progress. This project purposes is mostly to lea
 I was going to use [`quirs`](https://docs.rs/quirs/0.1.1/quirs/), but it depended on `libc` which 
 can not compile to WebAssembly.
 
+Live demo: https://jackyef.github.io/rqrr-wasm/
+
 ## Requirements
 
 1. Install rust [guide](https://doc.rust-lang.org/book/ch01-01-installation.html)
@@ -33,7 +35,7 @@ To build + run the binary in the same command
 cargo run
 ```
 
-## Get the demo running
+## Get the demo running locally
 
 Easiest way is to use `http-server` npm module
 
