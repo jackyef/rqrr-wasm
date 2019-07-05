@@ -1,10 +1,12 @@
-# Rust playground
+# rqrr-wasm
 
-This project is still a work in progress
+This project is still a work in progress. This project purposes is mostly to learn about WebAssembly. 
+I was going to use [`quirs`](https://docs.rs/quirs/0.1.1/quirs/), but it depended on `libc` which 
+can not compile to WebAssembly.
 
 ## Requirements
 
-1. Install rust, [this is a good guide for it](https://doc.rust-lang.org/book/ch01-01-installation.html)
+1. Install rust [guide](https://doc.rust-lang.org/book/ch01-01-installation.html)
 2. Add wasm as a compilation target to rust 
 ```
 rustup target add wasm32-unknown-unknown
