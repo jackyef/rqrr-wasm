@@ -8,8 +8,13 @@ Live demo: https://jackyef.github.io/rqrr-wasm/
 
 ```
 qr_rust.js 1.4 KB gzip
-gr_rust.wasm 264 KB gzip
+qr_rust.wasm 264 KB gzip
 ```
+
+## Example
+You can copy the qr_rust.js and qr_rust.wasm to your project, then follow the implementation in this [repo](https://github.com/jackyef/rqrr-wasm).
+(Check the webpack config, and wasm/index.js)
+I am still working on packing this as an npm module that can be easier to use.
 
 ## Requirements
 
