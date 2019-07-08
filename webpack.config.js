@@ -4,6 +4,9 @@ require('dotenv').config();
 const path = require('path');
 const webpack = require('webpack');
 const SimpleProgressWebpackPlugin = require('simple-progress-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+
+const outputPath = path.resolve(__dirname, './dist');
 
 module.exports = {
   entry: {
@@ -13,7 +16,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     libraryTarget: 'umd',
-    path: path.resolve(__dirname, './dist'),
+    path: outputPath,
   },
   module: {
     strictExportPresence: true,
@@ -47,7 +50,7 @@ module.exports = {
                 if (process.env.NODE_ENV === 'development') {
                   return '[path][name].[ext]';
                 } else {
-                  return '[hash].[ext]';
+                  return '[contenthash].[ext]';
                 }
               }
             },
@@ -60,6 +63,9 @@ module.exports = {
   plugins: [
     new SimpleProgressWebpackPlugin(),
     new webpack.HashedModuleIdsPlugin(),
+    new CopyPlugin([
+      { from: './src/plugins/RqrrWasmPlugin.js', to: path.join(outputPath, 'plugins/index.js') },
+    ]),
   ],
   optimization: {
     nodeEnv: 'production',

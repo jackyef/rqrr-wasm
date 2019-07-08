@@ -2,7 +2,7 @@ import '../docs/qr_rust.js'; // include the js bindings
 import wasmUrl from '../docs/qr_rust.wasm'; // we will use url loader for this file
 
 const wasmModule = {
-  init: async () => {
+  init: () => {
     // a promise. If resolved, then the wasm module is ready to be used.
     return wasm_bindgen(wasmUrl);
   },

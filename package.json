@@ -1,6 +1,6 @@
 {
   "name": "rqrr-wasm",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "The rust QR decoder library `rqrr`; compiled to WebAssembly using wasm-bindgen",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -20,7 +20,8 @@
     "webassembly",
     "rust",
     "wasm",
-    "wasm-bindgen"
+    "wasm-bindgen",
+    "rqrr"
   ],
   "author": "Jacky Efendi",
   "license": "MIT",
@@ -33,6 +34,7 @@
     "@babel/preset-env": "^7.5.0",
     "@babel/register": "^7.4.4",
     "babel-loader": "^8.0.6",
+    "copy-webpack-plugin": "^5.0.3",
     "debug": "^4.1.1",
     "dotenv": "^8.0.0",
     "file-loader": "^4.0.0",
