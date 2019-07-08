@@ -1,6 +1,6 @@
 {
   "name": "rqrr-wasm",
-  "version": "0.0.4",
+  "version": "0.0.8",
   "description": "The rust QR decoder library `rqrr`; compiled to WebAssembly using wasm-bindgen",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -38,8 +38,11 @@
     "debug": "^4.1.1",
     "dotenv": "^8.0.0",
     "file-loader": "^4.0.0",
-    "fs-extra": "^8.1.0",
     "simple-progress-webpack-plugin": "^1.1.2",
     "webpack": "^4.35.2"
+  },
+  "peerDependencies": {
+    "fs-extra": "^8.1.0",
+    "memory-fs": "^0.4.1"
   }
 }

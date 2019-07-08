@@ -5,7 +5,6 @@ const path = require('path');
 const webpack = require('webpack');
 const SimpleProgressWebpackPlugin = require('simple-progress-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-
 const outputPath = path.resolve(__dirname, './dist');
 
 module.exports = {
@@ -64,7 +63,7 @@ module.exports = {
     new SimpleProgressWebpackPlugin(),
     new webpack.HashedModuleIdsPlugin(),
     new CopyPlugin([
-      { from: './src/plugins/RqrrWasmPlugin.js', to: path.join(outputPath, 'plugins/index.js') },
+      { from: './src/webpack-plugins/RqrrWasmPlugin.js', to: path.join(outputPath, 'webpack-plugins/index.js') },
     ]),
   ],
   optimization: {

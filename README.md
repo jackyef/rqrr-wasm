@@ -1,54 +1,53 @@
 # rqrr-wasm
 
-This project is still a work in progress. This project purposes is mostly to learn about WebAssembly. 
-I was going to use [`quirs`](https://docs.rs/quirs/0.1.1/quirs/), but it depended on `libc` which 
-can not compile to WebAssembly.
+An npm module that use `rqrr` compiled to wasm to use easily in your webpack project.
 
-Live demo: https://jackyef.github.io/rqrr-wasm/
-
+## Instructions
+1. Install the module with its peer dependencies
 ```
-qr_rust.js 1.4 KB gzip
-qr_rust.wasm 264 KB gzip
+yarn add rqrr-wasm memory-fs fs-extra
+```
+
+2. Add the webpack plugin to your webpack configuration
+```javascript
+import RqrrWasmPlugin from 'rqrr-wasm/dist/webpack-plugins';
+
+// webpack configuration file
+webpackConfig = {
+  plugins: [
+    // other plugins
+    new RqrrWasmPlugin(), // put this last
+  ],
+}
+```
+
+3. Import the module in your code
+```javascript
+import wasmModule from 'rqrr-wasm';
+```
+
+4. Call `init()` to load the .wasm file, then you can `decode` a QR code by passing an `Uint8Array` of the image data
+```javascript
+wasmModule.init().then(() => {
+  const canvas = document.createElement('canvas');
+  canvas.width = 300;
+  canvas.height = 300;
+
+  canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+  canvas.toBlob(blob => {
+    const reader = new FileReader();
+
+    reader.addEventListener('loadend', () => {
+      const arrayBuffer = reader.result;
+      const output = wasmModule.decode(new Uint8Array(arrayBuffer));
+
+      console.log("DECODED QR: ", output); // the string output here!
+    });
+
+    reader.readAsArrayBuffer(blob);
+  });
+});
 ```
 
 ## Example
-You can copy the qr_rust.js and qr_rust.wasm to your project, then follow the implementation in this [repo](https://github.com/jackyef/rqrr-wasm).
-(Check the webpack config, and wasm/index.js)
-I am still working on packing this as an npm module that can be easier to use.
-
-## Requirements
-
-1. Install rust [guide](https://doc.rust-lang.org/book/ch01-01-installation.html)
-2. Add wasm as a compilation target to rust 
-```
-rustup target add wasm32-unknown-unknown
-```
-3. Install wasm-bindgen cli [guide](https://docs.rs/crate/wasm-bindgen/0.2.8)
-4. Install cmake
-5. Clone this [git repo](https://github.com/WebAssembly/binaryen), and build the binaries
-6. Add the generated binaries to your `bin` directory (`/usr/local/bin`)
-
-## Building
-
-To build the rust source code to optimised .wasm for production
-```
-./build.sh
-```
-
-The rust source code is inside `rust-src` dir.
-
-## Get the demo running locally
-
-Easiest way is to use `http-server` npm module
-
-```
-npm install http-server -g
-http-server ./docs -g 
-```
-
-Open the address, an `initialize` button will appear after the wasm module is loaded. Click on it and it will start detecting QR code from the media stream.
-The output will be logged into console.
-
-## Next goals
-- [ ] Try to optimise the output and the code
-- [ ] Make it easier to consume as npm package
+An example of how to use this can be seen in this repo https://github.com/jackyef/rqrr-wasm

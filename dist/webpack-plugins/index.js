@@ -1,18 +1,26 @@
-const fs = require('fs-extra');
 const path = require('path');
+const MemoryFs = require('memory-fs');
+const realFs = require('fs-extra');
 
 function RqrrWasmPlugin() {
   const operationName = 'Copying the wasm file to output path...';
 
   this.apply = function(compiler) {
     compiler.plugin('done', function() {
-      /**
-       * should return a MemoryFileSystem instance
-       * (https://github.com/webpack/memory-fs)
-       */
+      let fs = compiler.outputFileSystem;
+
+      if (!(fs instanceof MemoryFs)) {
+        // https://github.com/webpack/webpack/blob/master/lib/node/NodeOutputFileSystem.js
+        // This means we are writing directly to disk.
+        // Since NodeOutputFileSystem doesn't implement readdirSync()
+        // let's just use fs-extra
+
+        fs = require('fs-extra');
+      }
+
       const webpackOutputPath = compiler.options.output.path;
       const sourcePath = path.resolve(__dirname, '../../dist');
-      const fileList = fs.readdirSync(sourcePath);
+      const fileList = realFs.readdirSync(sourcePath);
       const wasmFile = fileList.find(value => /\.wasm$/.test(value));
 
       const src = path.join(sourcePath, wasmFile);
@@ -23,9 +31,11 @@ function RqrrWasmPlugin() {
           console.log(`[RqrrWasmPlugin] Doing operation: "${operationName}"`);
 
           const dirname = path.dirname(dest);
-          const data = fs.readFileSync(src);
+          const data = realFs.readFileSync(src);
 
-          fs.ensureDirSync(dirname);
+          if (!fs.existsSync(dirname)){
+            fs.mkdirSync(dirname);
+          }
 
           fs.writeFileSync(dest, data);
 
