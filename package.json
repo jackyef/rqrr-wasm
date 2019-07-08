@@ -1,11 +1,12 @@
 {
   "name": "rqrr-wasm",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The rust QR decoder library `rqrr`; compiled to WebAssembly using wasm-bindgen",
-  "main": "docs/qr_rust.js",
-  "browser": "docs/qr_rust.js",
+  "main": "dist/index.js",
+  "browser": "dist/index.js",
   "scripts": {
     "build": "./build.sh",
+    "build:node": "DEBUG=build:* babel-node --max-old-space-size=4096 build.js",
     "pub": "npm publish --access public"
   },
   "directories": {
@@ -26,5 +27,17 @@
   "bugs": {
     "url": "https://github.com/jackyef/rqrr-wasm/issues"
   },
-  "homepage": "https://github.com/jackyef/rqrr-wasm#readme"
+  "homepage": "https://github.com/jackyef/rqrr-wasm#readme",
+  "devDependencies": {
+    "@babel/core": "^7.5.0",
+    "@babel/preset-env": "^7.5.0",
+    "@babel/register": "^7.4.4",
+    "babel-loader": "^8.0.6",
+    "debug": "^4.1.1",
+    "dotenv": "^8.0.0",
+    "file-loader": "^4.0.0",
+    "fs-extra": "^8.1.0",
+    "simple-progress-webpack-plugin": "^1.1.2",
+    "webpack": "^4.35.2"
+  }
 }

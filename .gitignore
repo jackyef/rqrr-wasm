@@ -1,4 +1,4 @@
 rust-src/target
 rust-src/**/*.rs.bk
-
+node_modules/
 .DS_Store
