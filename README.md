@@ -50,4 +50,4 @@ wasmModule.init().then(() => {
 ```
 
 ## Example
-An example of how to use this can be seen in this repo https://github.com/jackyef/rqrr-wasm
+An example of how to use this can be seen in this repo https://github.com/jackyef/react-rqrr-wasm
