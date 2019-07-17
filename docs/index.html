@@ -31,6 +31,12 @@
       button:click {
         border: inset 1px black;
       }
+
+      #output {
+        margin: 8px 0;
+        background: #eaeaea;
+        padding: 8px;
+      }
     </style>
   </head>
 
@@ -58,6 +64,7 @@
       try {
         const start = new Date().getTime();
         const output = decode_qr(byteArray);
+        $output.innerHTML = "Output from QR decoder: <br />" + output;
         console.log({ output, timeTaken: new Date().getTime() - start });
         window.decoded = output;
       } catch (err) {
