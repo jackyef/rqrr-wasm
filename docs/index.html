@@ -6,9 +6,13 @@
       content="initial-scale=1, minimum-scale=1, maximum-scale=5, user-scalable=no, width=device-width"
     />
     <style>
+      body, html {
+        margin: 0;
+        padding: 0;
+        font-family: system-ui, sans-serif;
+      }
       video {
         width: 100%;
-        margin: 8px 0;
       }
 
       button {
@@ -32,24 +36,68 @@
         border: inset 1px black;
       }
 
+      #outputLabel {
+        margin: 8px;
+        padding: 8px;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        font-family: system-ui, sans-serif;
+      }
+
       #output {
-        margin: 8px 0;
+        margin: 8px;
         background: #eaeaea;
         padding: 8px;
+        text-align: center;
+        font-size: 2rem;
+        font-weight: bold;
+        word-break: break-all;
       }
+
+      #time {
+        text-align: center;
+        font-size: 6rem;
+        font-weight: bold;
+      }
+
+      #title {
+        margin: 8px 0 16px 0;
+        font-size: 1.5rem;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+
+      #footer {
+        margin: 8px 0 16px 0;
+        font-size: 1.5rem;
+        text-align: center;
+        font-weight: bold;
+      }
+
     </style>
   </head>
 
   <video id="video" autoplay></video>
-  <button id="capture" style="display: none">Initialize</button>
+  
+  <div id="title">
+    rqrr-wasm (Rust)
+  </div>
 
+  <div id="outputLabel">Output:</div>
   <div id="output"></div>
+
+  <div id="time"></div>
+  <hr />
+  <div id="footer">Check: <a href="https://jackyef.github.io/rqrr-wasm/">https://jackyef.github.io/rqrr-wasm/</a></div>
+
   <script src="qr_rust.js"></script>
   <script>
     // load the js bindings
     wasm_bindgen("qr_rust.wasm")
       .then(() => {
-        document.getElementById("capture").style.display = "block";
+        // no-op
       })
       .catch(console.error);
 
@@ -64,11 +112,18 @@
       try {
         const start = new Date().getTime();
         const output = decode_qr(byteArray);
-        $output.innerHTML = "Output from QR decoder: <br />" + output;
-        console.log({ output, timeTaken: new Date().getTime() - start });
+        const usedOutput = output.includes("[Error]") ? 'N/A' : output;
+        const timeTaken = new Date().getTime() - start;
+
+        requestAnimationFrame(() => {
+          $output.innerHTML = usedOutput;
+          document.getElementById('time').innerHTML = timeTaken + " ms";
+        })
+        console.log({ output: usedOutput, timeTaken });
         window.decoded = output;
       } catch (err) {
-        console.err("[Error while decoding]", err);
+        // no-op
+        // console.error("[Error while decoding]", err);
       }
     };
 
@@ -109,10 +164,11 @@
       });
       const capture = document.getElementById("capture");
 
-      capture.addEventListener("click", () => {
-        console.log("initialized");
-        setInterval(captureImage, 300);
-      });
+      // capture.addEventListener("click", () => {
+      //   console.log("initialized");
+      //   setInterval(captureImage, 300);
+      // });
+      setInterval(captureImage, 300);
     };
 
     initialize();
