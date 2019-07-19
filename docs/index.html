@@ -10,22 +10,10 @@
         margin: 0;
         padding: 0;
         font-family: system-ui, sans-serif;
+        text-align: center;
       }
       video {
         width: 100%;
-      }
-
-      button {
-        background: #4257b8;
-        color: white;
-        font-size: 1.5rem;
-        padding: 8px 16px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 3px;
-        border: none;
-        outline: none;
       }
 
       button:hover {
@@ -66,7 +54,9 @@
         font-size: 1.5rem;
         text-align: center;
         font-weight: bold;
-        text-decoration: underline;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
 
       #footer {
@@ -76,6 +66,17 @@
         font-weight: bold;
       }
 
+      #toggle {
+        display: inline-block;
+        background: green;
+        color: white;
+        font-size: .9rem;
+        padding: 8px 16px;
+        align-items: center;
+        border-radius: 3px;
+        border: none;
+        outline: none;
+      }
     </style>
   </head>
 
@@ -84,6 +85,8 @@
   <div id="title">
     rqrr-wasm (Rust)
   </div>
+
+  <button id="toggle">Redirect: true</button>
 
   <div id="outputLabel">Output:</div>
   <div id="output"></div>
@@ -95,6 +98,8 @@
   <script src="qr_rust.js"></script>
   <script>
     // load the js bindings
+    var shouldRedirect = true;
+
     wasm_bindgen("qr_rust.wasm")
       .then(() => {
         // no-op
@@ -106,7 +111,7 @@
         facingMode: "environment",
       },
     };
-    var video, $output;
+    var video, $output, toggle;
     var scale = 0.25;
 
     var decodeQr = function(byteArray) {
@@ -122,6 +127,13 @@
           document.getElementById('time').innerHTML = timeTaken + " ms";
         })
         console.log({ output: usedOutput, timeTaken });
+
+        if (shouldRedirect) {
+          if (/^https?:/.test(usedOutput)) {
+            toggle.dispatchEvent(new Event('click'));
+            window.open(usedOutput);
+          }
+        }
         window.decoded = output;
       } catch (err) {
         // no-op
@@ -160,16 +172,23 @@
     var initialize = function() {
       $output = document.getElementById("output");
       video = document.getElementById("video");
+      toggle = document.getElementById("toggle");
 
       navigator.mediaDevices.getUserMedia(constraints).then(stream => {
         video.srcObject = stream;
       });
       const capture = document.getElementById("capture");
 
-      // capture.addEventListener("click", () => {
-      //   console.log("initialized");
-      //   setInterval(captureImage, 300);
-      // });
+      toggle.addEventListener("click", () => {
+        shouldRedirect = !shouldRedirect;
+        if (shouldRedirect) {
+          toggle.style = "";
+          toggle.innerText = 'Redirect: true';
+        } else {
+          toggle.style = "background: red";
+          toggle.innerText = 'Redirect: false';
+        }
+      });
       setInterval(captureImage, 300);
     };
 
