@@ -9,7 +9,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 rqrr = "0.2.0"
-image = "0.21.2"
+image = "0.23.1"
 wasm-bindgen = "0.2.47"
 
 [profile.release]
